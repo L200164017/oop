@@ -3,17 +3,13 @@ class Produk {
     public $judul, 
            $penulis,
            $penerbit,
-           $harga,
-           $jmlHalaman,
-           $waktuMain;
+           $harga;
 
-    public function __construct( $judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0, $jmlHalaman = 0, $waktuMain = 0 ) {
+    public function __construct( $judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0 ) {
         $this->judul = $judul;
         $this->penulis = $penulis;
         $this->penerbit = $penerbit;
         $this->harga = $harga;
-        $this->jmlHalaman = $jmlHalaman;
-        $this->waktuMain = $waktuMain;
     }
     public function getLabel() {
         return "$this->penulis, $this->penerbit";
@@ -26,29 +22,36 @@ class Produk {
 
 
 class Komik extends Produk {
+    public $jmlHalaman;
+
+      public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0, $jmlHalaman = 0) {
+        parent::construct($judul,$penulis,$penerbit,$harga,);
+    }
+
     public function getInfoProduk() {
         $str = "Komik : " . parent::getInfoProduk() . " - {$this->jmlHalaman} Halaman.";
         return $str;
     }
+
+    $this->jmlHalaman = $jmlHalaman;
 }
 
 
 
 class Game extends Produk {
+    public $waktuMain;
 
-     public function __construct( $judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0, $waktuMain = 0 ) {
-        $this->judul = $judul;
-        $this->penulis = $penulis;
-        $this->penerbit = $penerbit;
-        $this->harga = $harga;
-        $this->waktuMain = $waktuMain;
+     public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0, $waktuMain=0) {
+        parent::construct($judul,$penulis,$penerbit,$harga,);
     }
 
 
     public function getInfoProduk() {
-        $str = "Game : {$this->judul} | {$this->getLabel()} (Rp. {$this->harga}) ~ {$this->waktuMain} Jam.";
+        $str = "Game : ". parent::getInfoProduk()  . "~ {$this->waktuMain} Jam.";
         return $str;
     }
+
+    $this->waktuMain = $waktuMain;
 }
 
 
