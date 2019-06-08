@@ -3,7 +3,11 @@ class Produk {
     public $judul, 
            $penulis,
            $penerbit,
-           $harga;
+           $diskon;
+
+    protected $harga;
+
+    
 
     public function __construct( $judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0 ) {
         $this->judul = $judul;
@@ -18,14 +22,20 @@ class Produk {
         $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
         return $str;
     }
+
+    public function setDiskon($diskon) {
+        $this->diskon = $diskon;
+    }
 }
 
 
 class Komik extends Produk {
     public $jmlHalaman;
 
-      public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0, $jmlHalaman = 0) {
-        parent::construct($judul,$penulis,$penerbit,$harga,);
+      public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga=0,$jmlHalaman = 0) {
+        parent::__construct($judul,$penulis,$penerbit,$harga);
+
+        $this->jmlHalaman = $jmlHalaman;
     }
 
     public function getInfoProduk() {
@@ -33,7 +43,7 @@ class Komik extends Produk {
         return $str;
     }
 
-    $this->jmlHalaman = $jmlHalaman;
+    
 }
 
 
@@ -42,7 +52,9 @@ class Game extends Produk {
     public $waktuMain;
 
      public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0, $waktuMain=0) {
-        parent::construct($judul,$penulis,$penerbit,$harga,);
+        parent::__construct($judul,$penulis,$penerbit,$harga);
+
+        $this->waktuMain = $waktuMain;
     }
 
 
@@ -51,7 +63,12 @@ class Game extends Produk {
         return $str;
     }
 
-    $this->waktuMain = $waktuMain;
+    public function getHarga() {
+        $str = $this->harga - ($this->harga*$this->diskon/100);
+        return $str;
+    }
+
+    
 }
 
 
@@ -81,3 +98,18 @@ echo "<br>";
 echo $produk2->getInfoProduk();
 echo "<br>";
 echo $produk3->getInfoProduk();
+
+
+echo "<hr>";
+
+
+
+// Ini kalau pakai public
+// $produk2->harga = 220000;
+// echo "<br>";
+// echo $produk2->harga;
+
+
+//Ini kalau pakai protected
+$produk2->setDiskon(50);
+echo $produk2->getHarga();
