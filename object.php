@@ -1,6 +1,6 @@
 <?php 
 class Produk {
-    public $judul, 
+    private $judul, 
            $penulis,
            $penerbit,
            $diskon;
@@ -26,6 +26,35 @@ class Produk {
     public function setDiskon($diskon) {
         $this->diskon = $diskon;
     }
+
+    public function getDiskon()
+    {
+        return $this->diskon;
+    }
+
+    public function getHarga() {
+        $str = $this->harga - ($this->harga*$this->diskon/100);
+        return $str;
+    }
+
+    public function setPenulis($penulis) {
+        $this->penulis = $penulis;
+    }
+
+    public function getPenulis() {
+        return $this->penulis;
+    }
+
+    public function setPenerbit($penerbit)
+    {
+        $this->penerbit = $penerbit;
+    }
+
+    public function getPenerbit() 
+    {
+        return $this->penerbit;
+    }
+
 }
 
 
@@ -63,10 +92,7 @@ class Game extends Produk {
         return $str;
     }
 
-    public function getHarga() {
-        $str = $this->harga - ($this->harga*$this->diskon/100);
-        return $str;
-    }
+    
 
     
 }
