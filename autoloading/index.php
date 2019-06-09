@@ -12,3 +12,14 @@ $pr1->tambahProduk($produk1);
 $pr1->tambahProduk($produk2);
 
 echo $pr1->cetak();
+
+echo "<hr>";
+
+
+//Implementasi namespace
+
+use App\Service\User as ServiceUser;
+use App\Produk\User as ProdukUser;
+new ServiceUser();
+echo "<br>";
+new ProdukUser();
