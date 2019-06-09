@@ -1,5 +1,7 @@
 <?php 
-class Produk {
+
+
+abstract class Produk {
     private $judul, 
            $penulis,
            $penerbit,
@@ -18,7 +20,11 @@ class Produk {
     public function getLabel() {
         return "$this->penulis, $this->penerbit";
     }
-    public function getInfoProduk() {
+
+    abstract public function getInfoProduk();
+
+
+    public function getInfo() {
         $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
         return $str;
     }
@@ -67,8 +73,10 @@ class Komik extends Produk {
         $this->jmlHalaman = $jmlHalaman;
     }
 
+    
+
     public function getInfoProduk() {
-        $str = "Komik : " . parent::getInfoProduk() . " - {$this->jmlHalaman} Halaman.";
+        $str = "Komik : " . $this->getInfo() . " - {$this->jmlHalaman} Halaman.";
         return $str;
     }
 
@@ -87,21 +95,34 @@ class Game extends Produk {
     }
 
 
+
     public function getInfoProduk() {
-        $str = "Game : ". parent::getInfoProduk()  . "~ {$this->waktuMain} Jam.";
+        $str = "Game : ". $this->getInfo()  . "~ {$this->waktuMain} Jam.";
         return $str;
     }
 
-    
-
-    
+      
 }
 
 
-
 class CetakInfoProduk {
-    public function cetak( Produk $produk ) {
-        $str = "{$produk->judul} | {$produk->getLabel()} (Rp. {$produk->harga})";
+
+    public $listproduk = array();
+
+    public function tambahProduk (Produk $produk) 
+    {
+        $this->listproduk[] = $produk;
+    }
+
+
+    public function cetak() {
+        $str =  "DAFTAR LIST PRODUK : <br> ";
+
+        foreach($this->listproduk as $p)
+        {
+            $str .=  "- {$p->getInfoProduk()} <br>";
+        }
+
         return $str;
     }
 }
@@ -114,28 +135,18 @@ $produk2 = new Game("Uncharted", "Neil Druckmann", "Sony Computer", 250000,50);
 $produk3 = new Game("One Piece","eiichiro oda", "system", 35000,50);
 
 
+$pr1 = new CetakInfoProduk();
+$pr1->tambahProduk($produk1);
+$pr1->tambahProduk($produk2);
+
+echo $pr1->cetak();
 
 
 
 
 
-echo $produk1->getInfoProduk();
-echo "<br>";
-echo $produk2->getInfoProduk();
-echo "<br>";
-echo $produk3->getInfoProduk();
-
-
-echo "<hr>";
 
 
 
-// Ini kalau pakai public
-// $produk2->harga = 220000;
-// echo "<br>";
-// echo $produk2->harga;
 
 
-//Ini kalau pakai protected
-$produk2->setDiskon(50);
-echo $produk2->getHarga();
