@@ -1,13 +1,17 @@
-<?php 
+<?php
+
+
+interface InfoProduk {
+    public function getInfoProduk();
+}
 
 
 abstract class Produk {
-    private $judul, 
+    protected $judul, 
            $penulis,
            $penerbit,
-           $diskon;
-
-    protected $harga;
+           $diskon,
+           $harga;
 
     
 
@@ -21,13 +25,9 @@ abstract class Produk {
         return "$this->penulis, $this->penerbit";
     }
 
-    abstract public function getInfoProduk();
+    //Method wajib buat abstract
 
-
-    public function getInfo() {
-        $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
-        return $str;
-    }
+    abstract public function getInfo();
 
     public function setDiskon($diskon) {
         $this->diskon = $diskon;
@@ -61,10 +61,15 @@ abstract class Produk {
         return $this->penerbit;
     }
 
+    public function bendaPadat()
+    {
+        $bendaPadat = true;
+    }
+
 }
 
 
-class Komik extends Produk {
+class Komik extends Produk implements InfoProduk {
     public $jmlHalaman;
 
       public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga=0,$jmlHalaman = 0) {
@@ -73,8 +78,14 @@ class Komik extends Produk {
         $this->jmlHalaman = $jmlHalaman;
     }
 
-    
+    // Mengambil di abstract
+    public function getInfo() {
+        $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
+        return $str;
+    }
 
+    
+    //Mengambil di interface
     public function getInfoProduk() {
         $str = "Komik : " . $this->getInfo() . " - {$this->jmlHalaman} Halaman.";
         return $str;
@@ -85,7 +96,7 @@ class Komik extends Produk {
 
 
 
-class Game extends Produk {
+class Game extends Produk implements InfoProduk {
     public $waktuMain;
 
      public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0, $waktuMain=0) {
@@ -94,8 +105,14 @@ class Game extends Produk {
         $this->waktuMain = $waktuMain;
     }
 
+    //Mengambil di abstract
+    public function getInfo() {
+        $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
+        return $str;
+    }
 
 
+    //Mengambil di interface
     public function getInfoProduk() {
         $str = "Game : ". $this->getInfo()  . "~ {$this->waktuMain} Jam.";
         return $str;
@@ -140,11 +157,6 @@ $pr1->tambahProduk($produk1);
 $pr1->tambahProduk($produk2);
 
 echo $pr1->cetak();
-
-
-
-
-
 
 
 
